@@ -4,7 +4,7 @@ orbs:
   node: circleci/node@5.0.1
 
 jobs:
-  build:
+  build1:
     docker:
       - image: cimg/node:16.10
     steps:
@@ -15,7 +15,7 @@ jobs:
           echo "Installing dependencies..."
           npm install
 
-  test:
+  test1:
     docker:
       - image: cimg/node:16.10
     steps:
@@ -27,9 +27,9 @@ jobs:
           npm run test
 
 workflows:
-  simple_workflow:
+  simple_workflow1:
     jobs:
-      - build
-      - test:
+      - build1
+      - test1:
           requires:
-            - build
+            - build1
