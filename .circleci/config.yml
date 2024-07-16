@@ -33,3 +33,10 @@ workflows:
       - test1:
           requires:
             - build1
+
+  simple_workflow2:
+    jobs:
+      - build1
+      - test1:
+          requires:
+            - build1
