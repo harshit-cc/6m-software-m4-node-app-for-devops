@@ -24,3 +24,11 @@ test:
     - run: |
         echo "Running tests..."
         npm run test
+
+workflows:
+  simple_workflow:
+    jobs:
+      - build
+      - test:
+        requires:
+          - build
