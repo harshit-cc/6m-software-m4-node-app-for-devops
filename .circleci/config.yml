@@ -26,6 +26,19 @@ jobs:
           echo "Running tests..."
           npm run test
 
+  publish:
+    docker:
+      - image: cimg/node:16.10
+    resource_class: xlarge
+    steps:
+      - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - run: |
+          TAG=0.0.1
+          docker build -t harshitcc/circleci-demo-docker:$TAG .
+          docker push harshitcc/circleci-demo-docker:$TAG
+
 workflows:
   simple_workflow1:
     jobs:
@@ -33,10 +46,7 @@ workflows:
       - test1:
           requires:
             - build1
-
-  simple_workflow2:
-    jobs:
-      - build1
-      - test1:
+      - publish:
           requires:
             - build1
+            - test1:
