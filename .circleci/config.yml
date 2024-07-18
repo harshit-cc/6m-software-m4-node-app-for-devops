@@ -2,6 +2,8 @@ version: 2.1
 
 orbs:
   node: circleci/node@5.0.1
+  docker: circleci/docker@2.1.4
+  heroku: circleci/heroku@2.0.0
 
 jobs:
   build1:
@@ -27,17 +29,25 @@ jobs:
           npm run test
 
   publish:
-    docker:
-      - image: cimg/node:16.10
+    executor: docker/docker
+    # docker:
+    #   - image: cimg/node:16.10
     steps:
+      - setup_remote_docker
       - checkout
-      - setup_remote_docker:
-          docker_layer_caching: true
-      - run: |
-          TAG=0.0.1
-          docker build -t $DOCKER_USER/circleci-demo-docker:$TAG .
-          echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
-          docker push $DOCKER_USER/circleci-demo-docker:$TAG
+      - docker/check
+      - docker/build:
+          image: harshitcc/education-space
+      - docker/push:
+          image: harshitcc/education-space
+      # - checkout
+      # - setup_remote_docker:
+      #     docker_layer_caching: true
+      # - run: |
+      #     TAG=0.0.1
+      #     docker build -t $DOCKER_USER/circleci-demo-docker:$TAG .
+      #     echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+      #     docker push $DOCKER_USER/circleci-demo-docker:$TAG
 
 workflows:
   simple_workflow1:
@@ -49,7 +59,7 @@ workflows:
       - publish:
           # context: my_context
           requires:
-            - build1
+            # - build1
             - test1
 #
 #
