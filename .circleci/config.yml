@@ -1,7 +1,57 @@
-version: 2.1
+# version: 2.1
 
-orbs:
-  node: circleci/node@5.0.1
+# orbs:
+#   node: circleci/node@5.0.1
+
+# jobs:
+#   build1:
+#     docker:
+#       - image: cimg/node:16.10
+#     steps:
+#       - checkout
+#       - node/install-packages:
+#           pkg-manager: npm
+#       - run: |
+#           echo "Installing dependencies..."
+#           npm install
+
+#   test1:
+#     docker:
+#       - image: cimg/node:16.10
+#     steps:
+#       - checkout
+#       - node/install-packages:
+#           pkg-manager: npm
+#       - run: |
+#           echo "Running tests..."
+#           npm run test
+
+#   publish:
+#     docker:
+#       - image: cimg/node:16.10
+#     steps:
+#       - checkout
+#       - setup_remote_docker:
+#           docker_layer_caching: true
+#       - run: |
+#           TAG=0.0.1
+#           docker build -t harshitcc/circleci-demo-docker:$TAG .
+#           docker login -u "$DOCKER_USER" -u "$DOCKER_PASS"
+#           docker push harshitcc/circleci-demo-docker:$TAG
+
+# workflows:
+#   simple_workflow1:
+#     jobs:
+#       - build1
+#       - test1:
+#           requires:
+#             - build1
+#       - publish:
+#           requires:
+#             - build1
+#             - test1
+
+version: 2.1
 
 jobs:
   build1:
@@ -9,8 +59,6 @@ jobs:
       - image: cimg/node:16.10
     steps:
       - checkout
-      - node/install-packages:
-          pkg-manager: npm
       - run: |
           echo "Installing dependencies..."
           npm install
@@ -20,8 +68,6 @@ jobs:
       - image: cimg/node:16.10
     steps:
       - checkout
-      - node/install-packages:
-          pkg-manager: npm
       - run: |
           echo "Running tests..."
           npm run test
@@ -36,6 +82,7 @@ jobs:
       - run: |
           TAG=0.0.1
           docker build -t harshitcc/circleci-demo-docker:$TAG .
+          docker login -u "$DOCKER_USER" -u "$DOCKER_PASS"
           docker push harshitcc/circleci-demo-docker:$TAG
 
 workflows:
