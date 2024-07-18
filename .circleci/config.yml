@@ -49,20 +49,20 @@ jobs:
       #     echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
       #     docker push $DOCKER_USER/circleci-demo-docker:$TAG
 
-    deploy:
-      docker:
-        - image: cimg/node:16.10
-      steps:
-        - setup_remote_docker
-        - heroku/install
-        - checkout
-        - run:
-            name: Heroku Container Push
-            command: |
-              heroku container:login
-              heroku stack:set container -a harshitcc-su-devops
-              heroku container:push web -a harshitcc-su-devops
-              heroku container:release web -a harshitcc-su-devops
+  deploy:
+    docker:
+      - image: cimg/node:16.10
+    steps:
+      - setup_remote_docker
+      - heroku/install
+      - checkout
+      - run:
+          name: Heroku Container Push
+          command: |
+            heroku container:login
+            heroku stack:set container -a harshitcc-su-devops
+            heroku container:push web -a harshitcc-su-devops
+            heroku container:release web -a harshitcc-su-devops
 
 workflows:
   simple_workflow1:
