@@ -1,3 +1,60 @@
+# version: 2.1
+
+# orbs:
+#   node: circleci/node@5.0.1
+
+# jobs:
+#   build1:
+#     docker:
+#       - image: cimg/node:16.10
+#     steps:
+#       - checkout
+#       - node/install-packages:
+#           pkg-manager: npm
+#       - run: |
+#           echo "Installing dependencies..."
+#           npm install
+
+#   test1:
+#     docker:
+#       - image: cimg/node:16.10
+#     steps:
+#       - checkout
+#       - node/install-packages:
+#           pkg-manager: npm
+#       - run: |
+#           echo "Running tests..."
+#           npm run test
+
+#   publish:
+#     docker:
+#       - image: cimg/node:16.10
+#     steps:
+#       - checkout
+#       - setup_remote_docker:
+#           docker_layer_caching: true
+#       - run: |
+#           TAG=0.0.1
+#           docker build -t $DOCKER_USER/circleci-demo-docker:$TAG .
+#           echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+#           docker push $DOCKER_USER/circleci-demo-docker:$TAG
+
+# workflows:
+#   simple_workflow1:
+#     jobs:
+#       - build1
+#       - test1:
+#           requires:
+#             - build1
+#       - publish:
+#           context: my_context
+#           requires:
+#             - build1
+#             - test1
+#
+#
+#
+# testing without using docker
 version: 2.1
 
 orbs:
@@ -5,8 +62,7 @@ orbs:
 
 jobs:
   build1:
-    docker:
-      - image: cimg/node:16.10
+    executor: node/default
     steps:
       - checkout
       - node/install-packages:
@@ -16,8 +72,7 @@ jobs:
           npm install
 
   test1:
-    docker:
-      - image: cimg/node:16.10
+    executor: node/default
     steps:
       - checkout
       - node/install-packages:
@@ -27,8 +82,7 @@ jobs:
           npm run test
 
   publish:
-    docker:
-      - image: cimg/node:16.10
+    executor: node/default
     steps:
       - checkout
       - setup_remote_docker:
@@ -36,7 +90,6 @@ jobs:
       - run: |
           TAG=0.0.1
           docker build -t $DOCKER_USER/circleci-demo-docker:$TAG .
-          # docker login registry-1.docker.io -u $DOCKER_USER -u $DOCKER_PASS
           echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
           docker push $DOCKER_USER/circleci-demo-docker:$TAG
 
@@ -52,57 +105,3 @@ workflows:
           requires:
             - build1
             - test1
-#
-#
-#
-# testing without using docker
-# version: 2.1
-
-# orbs:
-#   node: circleci/node@5.0.1
-
-# jobs:
-#   build1:
-#     executor: node/default
-#     steps:
-#       - checkout
-#       - node/install-packages:
-#           pkg-manager: npm
-#       - run: |
-#           echo "Installing dependencies..."
-#           npm install
-
-#   test1:
-#     executor: node/default
-#     steps:
-#       - checkout
-#       - node/install-packages:
-#           pkg-manager: npm
-#       - run: |
-#           echo "Running tests..."
-#           npm run test
-
-#   publish:
-#     executor: node/default
-#     steps:
-#       - checkout
-#       - setup_remote_docker:
-#           docker_layer_caching: true
-#       - run: |
-#           TAG=0.0.1
-#           docker build -t $DOCKER_USER/circleci-demo-docker:$TAG .
-#           docker login registry-1.docker.io -u "$DOCKER_USER" -u "$DOCKER_PASS"
-#           docker push $DOCKER_USER/circleci-demo-docker:$TAG
-
-# workflows:
-#   simple_workflow1:
-#     jobs:
-#       - build1
-#       - test1:
-#           requires:
-#             - build1
-#       - publish:
-#           context: my_context
-#           requires:
-#             - build1
-#             - test1
