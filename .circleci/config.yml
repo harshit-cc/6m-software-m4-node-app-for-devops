@@ -49,4 +49,4 @@ workflows:
       - publish:
           requires:
             - build1
-            - test1:
+            - test1
