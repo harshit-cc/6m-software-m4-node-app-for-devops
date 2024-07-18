@@ -35,6 +35,8 @@ jobs:
           docker_layer_caching: true
       - run: |
           TAG=0.0.1
+          echo $DOCKER_USER
+          echo $DOCKER_PASS
           docker build -t $DOCKER_USER/circleci-demo-docker:$TAG .
           docker login registry-1.docker.io -u $DOCKER_USER -u $DOCKER_PASS
           docker push $DOCKER_USER/circleci-demo-docker:$TAG
