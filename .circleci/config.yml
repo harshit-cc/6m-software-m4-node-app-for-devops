@@ -85,7 +85,7 @@ jobs:
           docker_layer_caching: true
       - run: |
           TAG=0.0.1
-          docker build -t harshitcc/circleci-demo-docker:$TAG .
+          docker build -t DOCKER_USER/circleci-demo-docker:$TAG .
           docker login registry-1.docker.io -u "$DOCKER_USER" -u "$DOCKER_PASS"
           docker push DOCKER_USER/circleci-demo-docker:$TAG
 
@@ -97,6 +97,7 @@ workflows:
           requires:
             - build1
       - publish:
+        context: my_context
           requires:
             - build1
             - test1
