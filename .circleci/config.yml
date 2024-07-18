@@ -58,6 +58,7 @@ orbs:
 
 jobs:
   build1:
+    executor: node/default
     steps:
       - checkout
       - node/install-packages:
@@ -67,6 +68,7 @@ jobs:
           npm install
 
   test1:
+    executor: node/default
     steps:
       - checkout
       - node/install-packages:
@@ -76,6 +78,7 @@ jobs:
           npm run test
 
   publish:
+    executor: node/default
     steps:
       - checkout
       - setup_remote_docker:
