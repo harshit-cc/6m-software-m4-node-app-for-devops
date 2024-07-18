@@ -86,8 +86,8 @@ jobs:
       - run: |
           TAG=0.0.1
           docker build -t harshitcc/circleci-demo-docker:$TAG .
-          docker login -u "$DOCKER_USER" -u "$DOCKER_PASS"
-          docker push harshitcc/circleci-demo-docker:$TAG
+          docker login registry-1.docker.io -u "$DOCKER_USER" -u "$DOCKER_PASS"
+          docker push DOCKER_USER/circleci-demo-docker:$TAG
 
 workflows:
   simple_workflow1:
