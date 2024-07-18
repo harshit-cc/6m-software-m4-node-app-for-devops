@@ -101,7 +101,7 @@ workflows:
           requires:
             - build1
       - publish:
-          context: my_context
+          # context: my_context
           requires:
             - build1
             - test1
