@@ -53,28 +53,29 @@
 
 version: 2.1
 
+orbs:
+  node: circleci/node@5.0.1
+
 jobs:
   build1:
-    docker:
-      - image: cimg/node:16.10
     steps:
       - checkout
+      - node/install-packages:
+          pkg-manager: npm
       - run: |
           echo "Installing dependencies..."
           npm install
 
   test1:
-    docker:
-      - image: cimg/node:16.10
     steps:
       - checkout
+      - node/install-packages:
+          pkg-manager: npm
       - run: |
           echo "Running tests..."
           npm run test
 
   publish:
-    docker:
-      - image: cimg/node:16.10
     steps:
       - checkout
       - setup_remote_docker:
