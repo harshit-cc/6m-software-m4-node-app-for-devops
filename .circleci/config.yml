@@ -109,17 +109,33 @@ workflows:
       #   - equal: [ release, << pipeline.git.branch >> ]
       #   - equal: [ /^v*/, << pipeline.git.tag >> ]
     jobs:
-      - build1
+      - build1:
+          filters:
+            branches:
+              only:
+                - release
       - test1:
           requires:
             - build1
+          filters:
+            branches:
+              only:
+                - release
       - publish:
           # context: my_context
           requires:
             - test1
+          filters:
+            branches:
+              only:
+                - release
       - deploy:
           requires:
             - publish
+          filters:
+            branches:
+              only:
+                - release
 
 
 #
