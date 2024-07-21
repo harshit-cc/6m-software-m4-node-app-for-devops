@@ -66,7 +66,12 @@ jobs:
 workflows:
   simple_workflow1:
     jobs:
-      - build1
+      - build1:
+          filters:
+            branches:
+              only:
+                - main
+                - release
       - test1:
           requires:
             - build1
@@ -74,6 +79,7 @@ workflows:
             branches:
               only:
                 - main
+                - release
       - publish:
           # context: my_context
           requires:
@@ -83,6 +89,8 @@ workflows:
             branches:
               only:
                 - release
+            # tags:
+            #   only: /^v.*/
       - deploy:
           requires:
             - publish
@@ -90,6 +98,9 @@ workflows:
             branches:
               only:
                 - release
+            # tags:
+            #   only: /^v.*/
+
 #
 #
 #
