@@ -94,12 +94,16 @@ workflows:
       - deploy:
           requires:
             - publish
-          filters:
-            branches:
-              only:
-                - release
-            tags:
-              only: /^v.*/
+          when:
+            and:
+              - equal: [ release, << pipeline.git.branch >> ]
+              - equal: [ /^v.*/, << pipeline.git.tag >> ]
+          # filters:
+          #   branches:
+          #     only:
+          #       - release
+          #   tags:
+          #     only: /^v.*/
 
 #
 #
