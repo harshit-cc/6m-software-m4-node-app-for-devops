@@ -65,6 +65,12 @@ jobs:
 
 workflows:
   build, test, publish and deploy:
+    when:
+      and:
+        - not: 
+            equal: [ release, << pipeline.git.branch >> ]
+        - not: 
+            equal: [ /^v.*/, << pipeline.git.tag >> ]
     jobs:
       - build1:
           filters:
