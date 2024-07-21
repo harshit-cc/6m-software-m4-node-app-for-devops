@@ -67,7 +67,7 @@ workflows:
   build, test, publish and deploy:
     when:
       not:
-        equal: [ /^v.*/, << pipeline.git.tag >> ]
+        equal: [ /^v*/, << pipeline.git.tag >> ]
         # and:
         #   - equal: [ release, << pipeline.git.branch >> ]
         #   - equal: [ /^v.*/, << pipeline.git.tag >> ]
