@@ -14,8 +14,7 @@ jobs:
       - node/install-packages:
           pkg-manager: npm
       - run: |
-          echo "Installing dependencies..."
-          npm install
+          echo "Performing build..."
 
   test1:
     docker:
@@ -71,14 +70,26 @@ workflows:
       - test1:
           requires:
             - build1
+          filters:
+            branches:
+              only:
+                - main
       - publish:
           # context: my_context
           requires:
             # - build1
             - test1
+          filters:
+            branches:
+              only:
+                - release
       - deploy:
           requires:
             - publish
+          filters:
+            branches:
+              only:
+                - release
 #
 #
 #
