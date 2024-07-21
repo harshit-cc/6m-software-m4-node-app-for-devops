@@ -64,10 +64,10 @@ jobs:
             heroku container:release web -a harshitcc-su-devops
 
 workflows:
-  build, test, publish and deploy:
+  build-test-publish-deploy:
     when:
       not:
-        equal: [ /^v*/, << pipeline.git.tag >> ]
+        equal: [ /^vv*/, << pipeline.git.tag >> ]
         # and:
         #   - equal: [ release, << pipeline.git.branch >> ]
         #   - equal: [ /^v.*/, << pipeline.git.tag >> ]
@@ -102,9 +102,9 @@ workflows:
               only:
                 - release
 
-  build, test, publish and deploy with tag:
+  build-test-publish-deploy-wTag:
     when:
-      equal: [ /^v*/, << pipeline.git.tag >> ]
+      equal: [ /^vv*/, << pipeline.git.tag >> ]
       # and:
       #   - equal: [ release, << pipeline.git.branch >> ]
       #   - equal: [ /^v*/, << pipeline.git.tag >> ]
