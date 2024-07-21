@@ -105,7 +105,7 @@ workflows:
     when:
       and:
         - equal: [ release, << pipeline.git.branch >> ]
-        - equal: [ /^v.*/, << pipeline.git.tag >> ]
+        - equal: [ /^v*/, << pipeline.git.tag >> ]
     jobs:
       - build1
       - test1:
