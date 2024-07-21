@@ -64,7 +64,7 @@ jobs:
             heroku container:release web -a harshitcc-su-devops
 
 workflows:
-  simple_workflow1:
+  build, test, publish and deploy:
     jobs:
       - build1:
           filters:
@@ -83,27 +83,36 @@ workflows:
       - publish:
           # context: my_context
           requires:
-            # - build1
             - test1
           filters:
             branches:
               only:
                 - release
-            tags:
-              only: /^v.*/
       - deploy:
           requires:
             - publish
-          when:
-            and:
-              - equal: [ release, << pipeline.git.branch >> ]
-              - equal: [ /^v.*/, << pipeline.git.tag >> ]
-          # filters:
-          #   branches:
-          #     only:
-          #       - release
-          #   tags:
-          #     only: /^v.*/
+          filters:
+            branches:
+              only:
+                - release
+
+  build, test, publish and deploy with tag:
+    when:
+      and:
+        - equal: [ release, << pipeline.git.branch >> ]
+        - equal: [ /^v.*/, << pipeline.git.tag >> ]
+    jobs:
+      - build1
+      - test1:
+          requires:
+            - build1
+      - publish:
+          # context: my_context
+          requires:
+            - test1
+      - deploy:
+          requires:
+            - publish
 
 #
 #
