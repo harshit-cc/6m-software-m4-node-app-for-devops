@@ -78,7 +78,7 @@ jobs:
           - snyk/scan:
               docker-image-name: $IMAGE_NAME
               severity-threshold: high
-              fail-on-issue: false
+              fail-on-issues: false
 
 
 workflows:
