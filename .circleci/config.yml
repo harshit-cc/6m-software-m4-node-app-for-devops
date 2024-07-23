@@ -4,6 +4,7 @@ orbs:
   node: circleci/node@5.0.1
   docker: circleci/docker@2.1.4
   heroku: circleci/heroku@2.0.0
+  snyk: snyk/snyk@1.5.0
 
 jobs:
   build1:
@@ -63,6 +64,20 @@ jobs:
             heroku container:push web -a harshitcc-su-devops
             heroku container:release web -a harshitcc-su-devops
 
+
+  scan:
+      docker:
+          - image: cimg/node:16.10
+      environment:
+          IMAGE_NAME: harshitcc/education-space
+      steps:
+          - checkout
+          - setup_remote_docker      
+          - docker/check
+          - run: docker build -t $IMAGE_NAME .
+          - snyk/scan: 
+              docker-image-name: $IMAGE_NAME
+
 workflows:
   build-test-publish-deploy:
     when:
@@ -94,6 +109,13 @@ workflows:
             branches:
               only:
                 - release
+      # The scan job
+      - scan:
+          requires:
+            - build1
+          filters:
+            branches:
+              only: main      
       - deploy:
           requires:
             - publish
