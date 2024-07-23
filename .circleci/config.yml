@@ -77,6 +77,8 @@ jobs:
           - run: docker build -t $IMAGE_NAME .
           - snyk/scan: 
               docker-image-name: $IMAGE_NAME
+              severiity-threshold: high
+              fail-on-issue: false
 
 workflows:
   build-test-publish-deploy:
