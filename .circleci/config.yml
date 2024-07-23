@@ -64,7 +64,6 @@ jobs:
             heroku container:push web -a harshitcc-su-devops
             heroku container:release web -a harshitcc-su-devops
 
-
   scan:
       docker:
           - image: cimg/node:16.10
@@ -80,6 +79,19 @@ jobs:
               severity-threshold: high
               fail-on-issues: false
 
+  codescan:
+      docker:
+          - image: cimg/node:16.10
+      environment:
+          IMAGE_NAME: harshitcc/education-space
+      steps:
+          - checkout
+          - setup_remote_docker
+          - docker/check
+          - run: docker build -t $IMAGE_NAME .
+          - snyk/install
+          - run: |
+              snyk code test
 
 workflows:
   build-test-publish-deploy:
